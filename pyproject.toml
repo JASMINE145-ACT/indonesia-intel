@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "indonesia-intel"
+version = "0.1.0"
+description = "China-Indonesia outbound intel ingest MVP (Phase 1 scaffold)"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115.0",
+  "uvicorn[standard]>=0.32.0",
+  "sqlalchemy>=2.0.36",
+  "pydantic>=2.9.0",
+  "pydantic-settings>=2.6.0",
+  "httpx>=0.27.0",
+  "pyyaml>=6.0.2",
+  "trafilatura>=1.12.0",
+  "lxml_html_clean>=0.4.0",
+  "pypdf>=5.0.0",
+  "exa-py>=1.0.0",
+  "tavily-python>=0.5.0",
+  "mcp>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "pytest-asyncio>=0.24.0"]
+fetch-l2 = ["scrapling[fetchers]>=0.4.11"]
+gnews = ["googlenewsdecoder>=0.1.0"]
+
+[tool.setuptools.packages.find]
+include = ["app*", "providers*", "storage*", "sources*", "jobs*", "fetch*", "dedup*", "api*", "mcp_server*", "taxonomy*", "integrations*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
