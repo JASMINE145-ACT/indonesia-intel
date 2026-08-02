@@ -1,0 +1,34 @@
+# Prefer-source registration template — copy fields into registry.yaml or learned.yaml
+# Extension path (WANd.INTEL.SOURCE_EXTEND.001):
+#   1) Fill this template → append to sources/registry.yaml (or MCP intel_sources_add)
+#   2) Smoke: python -m jobs.cli_source_smoke --source-id <id> --provider mock|exa|tavily
+#   3) On live fail, record error class: ok | empty | cert | dns | waf | paywall | fetch_fail
+#   4) Optional: fetch_l2: true + fetch_l2_mode: http|dynamic|stealthy
+#   5) Optional: PROXY_URL for brittle *.go.id (never verify=False)
+
+sources:
+  - id: example_new_source          # unique slug
+    name: Example News              # human label
+    domain: example.com             # used for site: search filter
+    home_url: https://www.example.com/
+    country: ID                     # ISO-ish
+    region: ID                      # CN | ID | INT
+    language: en                    # en | id | zh
+    level: mainstream_media         # free tag
+    priority: B                     # A = MVP must-cover, B = next
+    fetch_mode: search              # rss | list | search | sitemap | guide
+    rss_url: ""                     # required when fetch_mode=rss
+    sitemap_url: ""                 # optional; discovery sitemap adapter
+    list_url: ""                    # listing page URL
+    item_selector: ""               # CSS for listing items (required for listing)
+    url_selector: "a"               # link inside item
+    title_selector: ""              # optional title inside item
+    include_patterns: ""            # pipe-separated path substrings (sitemap + listing)
+    exclude_patterns: ""            # pipe-separated path substrings (sitemap + listing)
+    discovery_enabled: true         # false = leave L1 (do NOT rely on fetch_mode alone)
+    watch_url: ""                   # optional; INTEL_DISCOVERY_WATCH must be on
+    watch_selector: ""              # optional CSS scope for change hash; empty = body
+    enabled: true
+    fetch_l2: false                 # true only if L1 often fails (CF/WAF/JS)
+    fetch_l2_mode: http             # http | dynamic | stealthy
+    notes: "Why this source matters; known blockers"

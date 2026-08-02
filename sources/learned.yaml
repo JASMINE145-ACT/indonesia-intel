@@ -1,0 +1,14 @@
+sources:
+- id: new_prefer_example
+  name: New Prefer
+  domain: new-prefer.example
+  country: ''
+  region: INT
+  language: ''
+  level: learned
+  priority: B
+  fetch_mode: list
+  home_url: https://new-prefer.example/
+  rss_url: ''
+  enabled: true
+  notes: learned via MCP
