@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Indonesia Intel — Ops</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./tokens.css" />
+    <link rel="stylesheet" href="./app.css" />
+  </head>
+  <body>
+    <div class="shell shell-wide">
+      <header class="topbar">
+        <div class="brand">
+          <p class="brand-name">Indonesia Intel</p>
+          <p class="brand-sub">中企出海印尼 · 本地 Ops 看板</p>
+        </div>
+        <div class="top-actions">
+          <div class="field">
+            <label for="api-key">API Key</label>
+            <input id="api-key" type="password" autocomplete="off" spellcheck="false" />
+          </div>
+          <button type="button" class="btn btn-secondary" id="btn-save-key">保存</button>
+          <button type="button" class="btn btn-ghost" id="btn-theme" aria-label="切换主题">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div id="banner" class="banner" data-tone="info" hidden role="status"></div>
+
+      <div class="tablist" role="tablist" aria-label="主功能">
+        <button type="button" class="tab" role="tab" id="tab-feed" data-tab="feed" aria-controls="panel-feed" aria-selected="true">流水</button>
+        <button type="button" class="tab" role="tab" id="tab-stats" data-tab="stats" aria-controls="panel-stats" aria-selected="false">分析汇总</button>
+        <button type="button" class="tab" role="tab" id="tab-review" data-tab="review" aria-controls="panel-review" aria-selected="false">审核</button>
+      </div>
+
+      <!-- Feed -->
+      <section id="panel-feed" class="tab-panel" role="tabpanel" aria-labelledby="tab-feed">
+        <div id="feed-kpis" class="kpi-strip" aria-label="流水计数"></div>
+        <div class="feed-layout">
+          <div class="feed-main panel">
+            <div class="meta-row">
+              <h2 class="panel-title" style="margin: 0">抓取流水</h2>
+              <button type="button" class="btn btn-secondary" id="btn-feed-refresh">刷新</button>
+            </div>
+            <div class="meta-row">
+              <div class="status-pills" id="feed-pills" role="group" aria-label="状态筛选">
+                <button type="button" class="pill" data-status="discovered" aria-pressed="true">已发现</button>
+                <button type="button" class="pill" data-status="pending_review" aria-pressed="false">待审</button>
+                <button type="button" class="pill" data-status="confirmed" aria-pressed="false">已确认</button>
+                <button type="button" class="pill" data-status="ignored" aria-pressed="false">已忽略</button>
+                <button type="button" class="pill" data-status="fetch_failed" aria-pressed="false">抓取失败</button>
+              </div>
+              <p class="count ui-data" id="feed-count">0</p>
+            </div>
+            <div id="feed-list" class="list" aria-live="polite"></div>
+          </div>
+          <aside id="feed-drawer" class="feed-drawer panel" hidden>
+            <div class="meta-row">
+              <h2 class="panel-title" style="margin: 0">详情</h2>
+              <button type="button" class="btn btn-ghost" id="btn-drawer-close" aria-label="关闭详情">关闭</button>
+            </div>
+            <h3 id="drawer-title" class="drawer-title"></h3>
+            <div id="drawer-meta" class="drawer-meta"></div>
+            <p id="drawer-unfetched-hint" class="item-unfetched-hint" hidden></p>
+            <p id="drawer-url" class="item-url ui-data"></p>
+            <pre id="drawer-body" class="body-preview"></pre>
+            <p id="drawer-trunc" class="muted" hidden>正文已截断</p>
+            <div class="item-actions">
+              <a class="btn btn-primary" id="btn-open-article" href="#" target="_blank" rel="noopener noreferrer">打开原文</a>
+            </div>
+          </aside>
+        </div>
+        <div id="drawer-scrim" class="drawer-scrim" hidden></div>
+      </section>
+
+      <!-- Stats -->
+      <section id="panel-stats" class="tab-panel" role="tabpanel" aria-labelledby="tab-stats" hidden>
+        <div class="banner" data-tone="info" role="note">
+          以下仅统计已确认 formal_events，不含待审 / 已发现候选。
+        </div>
+        <form class="panel toolbar stats-filters" id="stats-form">
+          <div class="field">
+            <label for="stats-from">date_from</label>
+            <input id="stats-from" name="date_from" placeholder="YYYY-MM-DD" />
+          </div>
+          <div class="field">
+            <label for="stats-to">date_to</label>
+            <input id="stats-to" name="date_to" placeholder="YYYY-MM-DD" />
+          </div>
+          <div class="field">
+            <label for="stats-industry">industry</label>
+            <input id="stats-industry" name="industry" />
+          </div>
+          <div class="field">
+            <label for="stats-etype">event_type</label>
+            <input id="stats-etype" name="event_type" />
+          </div>
+          <div class="field">
+            <label for="stats-stage">project_stage</label>
+            <input id="stats-stage" name="project_stage" />
+          </div>
+          <div class="field">
+            <label for="stats-location">location</label>
+            <input id="stats-location" name="location" />
+          </div>
+          <label class="check-row" for="stats-public">
+            <input type="checkbox" id="stats-public" name="public_only" />
+            public_only
+          </label>
+          <button type="submit" class="btn btn-primary">应用</button>
+        </form>
+        <div id="stats-empty" class="panel empty" hidden>
+          暂无已确认事件。请先在「审核」Tab 确认候选，或查看「流水」。
+          <p><button type="button" class="btn btn-secondary" id="btn-goto-review">去审核</button></p>
+        </div>
+        <div id="stats-root" class="stats-grid"></div>
+      </section>
+
+      <!-- Review (existing) -->
+      <section id="panel-review" class="tab-panel" role="tabpanel" aria-labelledby="tab-review" hidden>
+        <section class="panel" aria-labelledby="search-title">
+          <h2 class="panel-title" id="search-title">搜索入库</h2>
+          <form class="toolbar" id="search-form">
+            <div class="field" style="min-width: 0">
+              <label for="query">Query</label>
+              <input id="query" name="query" required placeholder="China Indonesia investment" />
+            </div>
+            <div class="field">
+              <label for="provider">Provider</label>
+              <select id="provider" name="provider">
+                <option value="">自动（Exa→Tavily→mock）</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn-search">搜索</button>
+          </form>
+          <label class="check-row" for="auto-fetch">
+            <input type="checkbox" id="auto-fetch" checked />
+            搜索后自动抓取正文（进入待审）
+          </label>
+        </section>
+
+        <section class="panel" aria-labelledby="queue-title">
+          <div class="meta-row">
+            <h2 class="panel-title" id="queue-title" style="margin: 0">候选队列</h2>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+              <button type="button" class="btn btn-secondary" id="btn-fetch">抓取正文</button>
+              <button type="button" class="btn btn-secondary" id="btn-refresh">刷新</button>
+            </div>
+          </div>
+          <div class="meta-row">
+            <div class="status-pills" role="group" aria-label="状态筛选">
+              <button type="button" class="pill" data-status="pending_review" aria-pressed="true">待审</button>
+              <button type="button" class="pill" data-status="discovered" aria-pressed="false">已发现</button>
+              <button type="button" class="pill" data-status="confirmed" aria-pressed="false">已确认</button>
+              <button type="button" class="pill" data-status="ignored" aria-pressed="false">已忽略</button>
+              <button type="button" class="pill" data-status="fetch_failed" aria-pressed="false">抓取失败</button>
+            </div>
+            <p class="count ui-data" id="result-count">0</p>
+          </div>
+          <div id="list" class="list" aria-live="polite"></div>
+        </section>
+      </section>
+    </div>
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
