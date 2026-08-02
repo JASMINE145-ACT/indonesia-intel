@@ -1,0 +1,31 @@
+{
+  "prd": "§7.1",
+  "in_scope": [
+    "industry_distribution",
+    "event_type_distribution",
+    "project_stage_distribution",
+    "monthly_trend",
+    "company_ranking",
+    "location_distribution",
+    "source_distribution",
+    "partner_distribution",
+    "investment_presence",
+    "investment_amount_raw",
+    "company_new_vs_existing",
+    "filters.date_from",
+    "filters.date_to",
+    "filters.industry",
+    "filters.company_id",
+    "filters.event_type",
+    "filters.project_stage",
+    "filters.public_only",
+    "filters.location"
+  ],
+  "deferred": [
+    "filters.verified",
+    "investment_numeric_sum",
+    "region_ontology",
+    "park_brand_firm_size"
+  ],
+  "evidence_path_template": "evidence/analysis-YYYYMMDD-dashboard.md"
+}

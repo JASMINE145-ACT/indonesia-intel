@@ -1,0 +1,37 @@
+---
+description: 中企出海印尼情报系统 — indonesia-intel MCP 工具的业务逻辑（PRD 红线与调用顺序）
+alwaysApply: true
+---
+
+在这个仓库里使用 `indonesia-intel` MCP 的 23 个 `intel_*` 工具时，**先加载 skill
+`indonesia-intel`**（`.cursor/skills/indonesia-intel/SKILL.md`），再按其中 checklist
+调工具。可读副本：`docs/agent_playbook.md`。冲突以
+`查资料prd/中企出海印尼-情报分析系统-PRD.md` 原文为准。
+
+红线：
+
+1. 未审核内容不进分析/内容生成。`intel_stats`/`intel_list` 只读 `formal_events`，
+   `pending_review`/`discovered` 状态的候选物理上读不到——正常调用不会违反这条。
+2. `industry`/`event_type`/`project_stage`/`source_attribution` 只能用
+   `intel_taxonomy_list()` 返回的值；别的值 `intel_confirm` 会直接拒绝写入。新增分类
+   是人工编辑 `taxonomy/registry.yaml` 的事，不要自创。
+3. 往内容里写任何数字/案例前，先对其 `formal_event_id` 跑
+   `intel_factcheck_event`；`ok: false` 就不能用。
+5. Do NOT flip is_public to True when unsure; inherit manual intake flags.
+6. Soft-pending (`pending_review` + `fetch_status=failed`) is triage-only — not content facts.
+   Unfetched confirm needs `allow_unfetched=True`; factcheck still fails.
+
+标准调用顺序：
+
+- 发现：`intel_poll_sources`（L1 rss|sitemap|listing|watch；~12 源）→ `intel_search`
+  （L2 Exa∪Tavily；Reach 不得替代 L1/L2）→ 可选 `intel_search_social`
+  （`INTEL_REACH_ENABLED=1`）；人工投喂用 `intel_manual_add`。
+  Watch/Reach/Jina flags 默认关；见 `evidence/discovery-coverage-20260801.md`。
+- 抓取：`intel_fetch(run_id=...)`；可重试 `retry_failed=True`。
+- 审核：`intel_list(status="pending_review")` → 逐条先 `intel_dedup_check`
+  → `intel_confirm(结构化字段)` 或 `intel_ignore(reason=...)`。
+- 分析：`intel_stats(筛选条件)` 拿分布/趋势/排名，`intel_list` 取代表案例配
+  `canonical_url`。
+- 内容：草稿引用的每个 `formal_event_id` 生成后过一遍 `intel_factcheck_event`，
+  附上 `intel_event_sources` 的来源链接。
+- 导出：`intel_export_events_csv` 只导出已确认事件，不导出待审核候选。

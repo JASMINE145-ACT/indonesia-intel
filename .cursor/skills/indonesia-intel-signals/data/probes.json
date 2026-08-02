@@ -1,0 +1,13 @@
+{
+  "prd": "§7.4",
+  "types": [
+    {"id": 1, "name": "行业突发激增", "max_tier_if_thin": 2},
+    {"id": 2, "name": "企业连续出现", "max_tier_if_thin": 2},
+    {"id": 3, "name": "项目长期无后续", "max_tier_if_thin": 3},
+    {"id": 4, "name": "地区扎堆", "max_tier_if_thin": 3},
+    {"id": 5, "name": "政策波及多家", "max_tier_if_thin": 3},
+    {"id": 6, "name": "扩产/关闭/退出迹象", "max_tier_if_thin": 3},
+    {"id": 7, "name": "细分赛道扎堆进入", "max_tier_if_thin": 2}
+  ],
+  "evidence_path_template": "evidence/analysis-YYYYMMDD-signals.md"
+}
