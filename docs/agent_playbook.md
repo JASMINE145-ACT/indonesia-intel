@@ -8,6 +8,8 @@
 只是能力(23 个 `intel_*` tool），**按什么顺序调、什么时候必须校验**是 PRD 的业务逻辑，
 不会自动从工具签名里推出来——Skill / 本 playbook 补这一层。
 
+**WorkBuddy 安装与 MCP 配置（给人看）：** [workbuddy-setup.md](./workbuddy-setup.md)
+
 来源：`查资料prd/中企出海印尼-情报分析系统-PRD.md`。冲突以 PRD 原文为准。
 
 L1 prefer 覆盖面（2026-08-01 lanes）：**12** 源可不靠广搜轮询 — 9 RSS + Kompas（sitemap）+ Detik + Bisnis（listing）。

@@ -108,6 +108,9 @@ vocabulary (PRD §6: "AI 不得随意创造大量新类"): edit the YAML by hand
 
 ## MCP (Cursor / WorkBuddy)
 
+**WorkBuddy 朋友上手（推荐先读）：** [`docs/workbuddy-setup.md`](docs/workbuddy-setup.md)  
+（只丢 GitHub 地址不够：需要本机 clone + `.env` + MCP `cwd` + 粘贴 playbook。）
+
 ```bat
 cd /d D:\demo1\indonesia-intel
 python -m pip install -e ".[dev]"
@@ -175,6 +178,7 @@ lines. Loadable skill (Awesome-style process gate):
 | **Skill (primary)** | `.cursor/skills/indonesia-intel/SKILL.md` | Hard-gates + checklists A–E; Cursor auto-discover |
 | Package copy | `indonesia-intel/.cursor/skills/indonesia-intel/` | Ships with the plugin |
 | Playbook twin | `docs/agent_playbook.md` | Human / WorkBuddy paste when skills unavailable |
+| WorkBuddy setup | `docs/workbuddy-setup.md` | Clone → `.env` → MCP cwd → paste playbook |
 | MCP `instructions` | `mcp_server/server.py` | Handshake condensed red lines |
 | Cursor rule | `.cursor/rules/indonesia-intel.mdc` | Always-on reminder in this repo |
 
