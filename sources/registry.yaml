@@ -1,0 +1,633 @@
+# Prefer / fixed high-value sources — seeded from
+# 查资料prd/deep-research-report (2).md （定点覆盖；广搜靠 Exa/Tavily）
+#
+# priority: A = MVP must-cover, B = next wave
+# region: CN | ID | INT
+# fetch_mode: rss | list | search | sitemap | guide
+# rss_url: fill when known; intel_poll_sources only ingests fetch_mode=rss + non-empty rss_url
+# RSS probe evidence: indonesia-intel/evidence/rss-probe-20260731*.json (2026-07-31)
+
+sources:
+  # —— 中国 A ——
+  - id: cninfo
+    name: 巨潮资讯网
+    domain: cninfo.com.cn
+    home_url: https://www.cninfo.com.cn/
+    country: CN
+    region: CN
+    language: zh
+    level: exchange_disclosure
+    priority: A
+    fetch_mode: search
+    enabled: true
+    notes: 深交所法定信息披露；上市公司印尼投资/设厂/并购公告
+
+  - id: sse
+    name: 上海证券交易所公告
+    domain: sse.com.cn
+    home_url: https://www.sse.com.cn/
+    country: CN
+    region: CN
+    language: zh
+    level: exchange_disclosure
+    priority: A
+    fetch_mode: search
+    enabled: true
+    notes: A 股重大合同、境外项目、印尼投资建设
+
+  - id: szse
+    name: 深圳证券交易所公告
+    domain: szse.cn
+    home_url: https://www.szse.cn/
+    country: CN
+    region: CN
+    language: zh
+    level: exchange_disclosure
+    priority: A
+    fetch_mode: search
+    enabled: true
+    notes: 深市出海订单、海外产能
+
+  - id: hkexnews
+    name: 港交所披露易 HKEXnews
+    domain: hkexnews.hk
+    home_url: https://www.hkexnews.hk/
+    country: HK
+    region: CN
+    language: zh
+    level: exchange_disclosure
+    priority: A
+    fetch_mode: search
+    enabled: true
+    notes: 在港中资印尼业务披露
+
+  - id: mofcom_fdi_guide
+    name: 商务部对外投资合作国别指南 / 投资指南网
+    domain: fdi.gov.cn
+    home_url: https://www.fdi.gov.cn/
+    country: CN
+    region: CN
+    language: zh
+    level: policy_guide
+    priority: A
+    fetch_mode: guide
+    enabled: true
+    notes: 印尼国别指南；知识底图非高频新闻
+
+  - id: mofcom_id_embassy
+    name: 中国驻印度尼西亚使馆经商处
+    domain: id.mofcom.gov.cn
+    home_url: http://id.mofcom.gov.cn/
+    country: ID
+    region: CN
+    language: zh
+    level: embassy_commerce
+    priority: A
+    fetch_mode: list
+    enabled: true
+    fetch_l2: true
+    fetch_l2_mode: dynamic
+    notes: 经贸动态、政策、风险提示；L2 Dynamic for JS shell
+
+  # —— 中国 B ——
+  - id: kr36_overseas
+    name: 36氪出海
+    domain: 36kr.com
+    home_url: https://www.36kr.com/
+    country: CN
+    region: CN
+    language: zh
+    level: outbound_media
+    priority: B
+    fetch_mode: rss
+    rss_url: https://36kr.com/feed
+    enabled: true
+    notes: "原生 RSS 可用（全站 feed，含出海稿）；2026-07-31 probe OK"
+
+  - id: krasia
+    name: KrASIA
+    domain: kr-asia.com
+    home_url: https://kr-asia.com/
+    country: INT
+    region: CN
+    language: en
+    level: outbound_media
+    priority: B
+    fetch_mode: search
+    enabled: true
+    notes: 科技/消费/创投中企东南亚扩张
+
+  - id: caixin_global
+    name: Caixin Global
+    domain: caixinglobal.com
+    home_url: https://www.caixinglobal.com/
+    country: CN
+    region: CN
+    language: en
+    level: financial_media
+    priority: B
+    fetch_mode: search
+    enabled: true
+    notes: 中企海外投资深度
+
+  - id: yicai_global
+    name: Yicai Global
+    domain: yicaiglobal.com
+    home_url: https://www.yicaiglobal.com/
+    country: CN
+    region: CN
+    language: en
+    level: financial_media
+    priority: B
+    fetch_mode: search
+    enabled: true
+    notes: 电池/金属/制造印尼布局
+
+  # —— 印尼政府 / 监管 A ——
+  - id: bkpm
+    name: Indonesia Investment Ministry / BKPM
+    domain: bkpm.go.id
+    home_url: https://www.bkpm.go.id/
+    country: ID
+    region: ID
+    language: id
+    level: official
+    priority: A
+    fetch_mode: list
+    enabled: true
+    discovery_enabled: false
+    notes: "PR3 skip 2026-08-02: SSL CERTIFICATE_VERIFY_FAILED on listing; needs PROXY_URL/CA — not L1 until fixed"
+
+  - id: kemenperin
+    name: Kementerian Perindustrian (Kemenperin)
+    domain: kemenperin.go.id
+    home_url: https://www.kemenperin.go.id/
+    country: ID
+    region: ID
+    language: id
+    level: official
+    priority: A
+    fetch_mode: list
+    list_url: https://kemenperin.go.id/siaran-pers
+    item_selector: "a[href*='/artikel/']"
+    url_selector: "a"
+    title_selector: ""
+    include_patterns: "/artikel/"
+    exclude_patterns: "/tag/|/login|/search|facebook|twitter|javascript"
+    enabled: true
+    discovery_enabled: true
+    notes: "PR3 2026-08-02: listing siaran-pers → /artikel/NNNN; live probe hits>20"
+
+  - id: esdm
+    name: Ministry of Energy and Mineral Resources (ESDM)
+    domain: esdm.go.id
+    home_url: https://www.esdm.go.id/
+    country: ID
+    region: ID
+    language: id
+    level: official
+    priority: A
+    fetch_mode: list
+    list_url: https://www.esdm.go.id/id/media-center/arsip-berita
+    item_selector: "a[href*='/media-center/arsip-berita/']"
+    url_selector: "a"
+    title_selector: ""
+    include_patterns: "/media-center/arsip-berita/"
+    exclude_patterns: "/tag/|/login|/search|berita-foto|reformasi-birokrasi"
+    enabled: true
+    discovery_enabled: true
+    notes: "PR3 2026-08-02: ID arsip-berita listing; live probe hits≈21"
+
+  - id: kemendag
+    name: Kementerian Perdagangan (Kemendag)
+    domain: kemendag.go.id
+    home_url: https://www.kemendag.go.id/
+    country: ID
+    region: ID
+    language: id
+    level: official
+    priority: A
+    fetch_mode: list
+    list_url: https://www.kemendag.go.id/berita/siaran-pers
+    item_selector: "a[href*='/berita/siaran-pers/']"
+    url_selector: "a"
+    title_selector: ""
+    include_patterns: "/berita/siaran-pers/"
+    exclude_patterns: "/tag/|/login|/search|facebook|twitter"
+    enabled: true
+    discovery_enabled: true
+    notes: "PR3 2026-08-02: siaran-pers listing; live probe deep hits≈10"
+
+  - id: ojk
+    name: OJK (Financial Services Authority)
+    domain: ojk.go.id
+    home_url: https://www.ojk.go.id/
+    country: ID
+    region: ID
+    language: id
+    level: regulator
+    priority: A
+    fetch_mode: list
+    enabled: true
+    discovery_enabled: false
+    notes: "PR3 skip 2026-08-02: SharePoint listing returns no article hrefs for CSS extract"
+
+  - id: idx
+    name: Indonesia Stock Exchange (IDX)
+    domain: idx.co.id
+    home_url: https://www.idx.co.id/
+    country: ID
+    region: ID
+    language: id
+    level: exchange
+    priority: A
+    fetch_mode: list
+    enabled: true
+    discovery_enabled: false
+    fetch_l2: true
+    fetch_l2_mode: stealthy
+    notes: "PR3 skip 2026-08-02: press-release listing HTTP 403 without Stealthy session; L2 fetch ok historically"
+
+  - id: kemenhub
+    name: Kementerian Perhubungan (Kemenhub / Dephub)
+    domain: dephub.go.id
+    home_url: https://dephub.go.id/
+    country: ID
+    region: ID
+    language: id
+    level: official
+    priority: B
+    fetch_mode: list
+    list_url: https://dephub.go.id/post/category/berita
+    enabled: true
+    discovery_enabled: false
+    notes: "PR3 skip 2026-08-02: category page 200 but CSS extract hits=0 (JS-rendered)"
+
+  # —— 印尼商协会 ——
+  - id: kadin
+    name: KADIN Indonesia
+    domain: kadin.id
+    home_url: https://www.kadin.id/
+    country: ID
+    region: ID
+    language: id
+    level: business_association
+    priority: A
+    fetch_mode: list
+    enabled: true
+    discovery_enabled: false
+    fetch_l2: true
+    fetch_l2_mode: stealthy
+    notes: "PR3 skip 2026-08-02: SPA/home redirects; no stable article listing CSS"
+
+  - id: apindo
+    name: APINDO
+    domain: apindo.or.id
+    home_url: https://apindo.or.id/
+    country: ID
+    region: ID
+    language: id
+    level: business_association
+    priority: B
+    fetch_mode: list
+    enabled: true
+    discovery_enabled: false
+    notes: "PR3 skip 2026-08-02: /en/news 404; no stable list_url+item_selector"
+
+  # —— 园区 ——
+  - id: imip
+    name: IMIP (Morowali Industrial Park)
+    domain: imip.co.id
+    home_url: https://imip.co.id/
+    country: ID
+    region: ID
+    language: en
+    level: industrial_park
+    priority: A
+    fetch_mode: list
+    enabled: true
+    discovery_enabled: false
+    notes: "PR3 skip 2026-08-02: /news/ 404; apex resolves but no listing selector"
+
+  - id: jiipe
+    name: JIIPE
+    domain: jiipe.com
+    home_url: https://www.jiipe.com/
+    country: ID
+    region: ID
+    language: en
+    level: industrial_park
+    priority: B
+    fetch_mode: list
+    enabled: true
+    notes: 东爪哇园区招商落地
+
+  - id: batang_city
+    name: Grand Batang City / Industropolis Batang
+    domain: grandbatangcity.com
+    home_url: https://grandbatangcity.com/
+    country: ID
+    region: ID
+    language: id
+    level: industrial_park
+    priority: B
+    fetch_mode: list
+    enabled: true
+    notes: 中爪哇选址与园区活动
+
+  # —— 印尼媒体 ——
+  - id: antara
+    name: ANTARA News
+    domain: antaranews.com
+    home_url: https://en.antaranews.com/
+    country: ID
+    region: ID
+    language: en
+    level: national_wire
+    priority: A
+    fetch_mode: rss
+    rss_url: https://en.antaranews.com/rss/news.xml
+    enabled: true
+    notes: 国家通讯社英文线；政策/投资快讯
+
+  - id: antara_id
+    name: ANTARA News (Bahasa)
+    domain: antaranews.com
+    home_url: https://www.antaranews.com/
+    country: ID
+    region: ID
+    language: id
+    level: national_wire
+    priority: A
+    fetch_mode: rss
+    rss_url: https://www.antaranews.com/rss/terkini.xml
+    enabled: true
+    notes: "印尼文最新；2026-07-31 probe OK"
+
+  - id: kompas
+    name: Kompas
+    domain: kompas.com
+    home_url: https://www.kompas.com/
+    country: ID
+    region: ID
+    language: id
+    level: mainstream_media
+    priority: A
+    fetch_mode: sitemap
+    sitemap_url: https://www.kompas.com/sitemap.xml
+    include_patterns: "/read/|/news/|/money/|/nasional/|/ekonomi/"
+    exclude_patterns: "/tag/|/author/|/video/|/login|/search"
+    list_url: https://www.kompas.com/
+    item_selector: "div.articleList, div.article__list, article"
+    url_selector: "a"
+    title_selector: "h2, h3, .article__title"
+    rss_url: ""
+    enabled: true
+    fetch_l2: true
+    fetch_l2_mode: stealthy
+    notes: "原生 RSS 403；discovery=sitemap→零结果降级 listing；非 GNews-only"
+
+  - id: kontan_en
+    name: Kontan English
+    domain: kontan.co.id
+    home_url: https://english.kontan.co.id/
+    country: ID
+    region: ID
+    language: en
+    level: financial_media
+    priority: B
+    fetch_mode: rss
+    rss_url: https://english.kontan.co.id/rss
+    enabled: true
+    notes: "英文财经 RSS；2026-07-31 probe OK"
+
+  - id: detik
+    name: Detik
+    domain: detik.com
+    home_url: https://www.detik.com/
+    country: ID
+    region: ID
+    language: id
+    level: mainstream_media
+    priority: B
+    fetch_mode: list
+    list_url: https://news.detik.com/berita
+    # Do NOT include bare `li` — nav/framebar lis sort before articles and steal the limit.
+    item_selector: "article.list-content__item"
+    url_selector: "h3.media__title a, h2.media__title a, a"
+    title_selector: "h3.media__title, h2.media__title, .media__title"
+    include_patterns: "/berita/d-"
+    exclude_patterns: "/tag/|/topic/|/live|/20detik|/connect|/terpopuler|/kolom/kirim|/foto"
+    enabled: true
+    notes: "原生 RSS 断连；discovery=listing article.list-content__item + /berita/d- filter；非 GNews-only"
+
+  - id: bisnis
+    name: Bisnis Indonesia
+    domain: bisnis.com
+    home_url: https://www.bisnis.com/
+    country: ID
+    region: ID
+    language: id
+    level: industry_media
+    priority: B
+    fetch_mode: list
+    list_url: https://www.bisnis.com/
+    item_selector: "a[href*='/read/']"
+    url_selector: "a"
+    title_selector: ""
+    include_patterns: "/read/"
+    exclude_patterns: "/tag/|/author/|/video/|/login|/search|/interaktif/"
+    discovery_enabled: true
+    enabled: true
+    notes: "原生 RSS 403；sitemap Cloudflare 403；discovery=listing homepage a[href*=/read/]；探活 2026-08-01"
+
+  - id: tempo_en
+    name: Tempo English
+    domain: tempo.co
+    home_url: https://en.tempo.co/
+    country: ID
+    region: ID
+    language: en
+    level: mainstream_media
+    priority: A
+    fetch_mode: rss
+    rss_url: https://rss.tempo.co/
+    enabled: true
+    notes: "新增；2026-07-31 probe OK (rss.tempo.co)"
+
+  - id: cnbc_indonesia
+    name: CNBC Indonesia
+    domain: cnbcindonesia.com
+    home_url: https://www.cnbcindonesia.com/
+    country: ID
+    region: ID
+    language: id
+    level: financial_media
+    priority: A
+    fetch_mode: rss
+    rss_url: https://www.cnbcindonesia.com/rss
+    enabled: true
+    notes: "新增；2026-07-31 probe OK"
+
+  - id: cnn_indonesia
+    name: CNN Indonesia
+    domain: cnnindonesia.com
+    home_url: https://www.cnnindonesia.com/
+    country: ID
+    region: ID
+    language: id
+    level: mainstream_media
+    priority: B
+    fetch_mode: rss
+    rss_url: https://www.cnnindonesia.com/rss
+    enabled: true
+    notes: "新增；2026-07-31 probe OK"
+
+  - id: bbc_indonesia
+    name: BBC News Indonesia
+    domain: bbc.com
+    home_url: https://www.bbc.com/indonesia
+    country: INT
+    region: ID
+    language: id
+    level: international_media
+    priority: B
+    fetch_mode: rss
+    rss_url: https://feeds.bbci.co.uk/indonesia/rss.xml
+    enabled: true
+    notes: "新增；2026-07-31 probe OK"
+
+  # —— 国际 A ——
+  - id: reuters
+    name: Reuters
+    domain: reuters.com
+    home_url: https://www.reuters.com/
+    country: INT
+    region: INT
+    language: en
+    level: international_media
+    priority: A
+    fetch_mode: search
+    enabled: true
+    notes: "公共 RSS 已关闭/401；靠 Exa/Tavily 广搜 + site:reuters.com"
+
+  - id: scmp
+    name: South China Morning Post
+    domain: scmp.com
+    home_url: https://www.scmp.com/
+    country: HK
+    region: INT
+    language: en
+    level: international_media
+    priority: B
+    fetch_mode: rss
+    rss_url: https://www.scmp.com/rss/91/feed
+    enabled: true
+    notes: "新增中国/亚洲线；2026-07-31 probe OK (rss/91)"
+
+  - id: worldbank_id
+    name: World Bank Indonesia
+    domain: worldbank.org
+    home_url: https://www.worldbank.org/en/country/indonesia
+    country: ID
+    region: INT
+    language: en
+    level: research_ifo
+    priority: A
+    fetch_mode: list
+    enabled: true
+    notes: 宏观/营商/IEP 报告
+
+  - id: imf_id
+    name: IMF Indonesia
+    domain: imf.org
+    home_url: https://www.imf.org/en/Countries/IDN
+    country: ID
+    region: INT
+    language: en
+    level: research_ifo
+    priority: A
+    fetch_mode: list
+    enabled: true
+    notes: 宏观风险与国别报告
+
+  - id: unctad_wir
+    name: UNCTAD World Investment Report
+    domain: unctad.org
+    home_url: https://unctad.org/topic/investment/world-investment-report
+    country: INT
+    region: INT
+    language: en
+    level: research_ifo
+    priority: A
+    fetch_mode: guide
+    enabled: true
+    notes: FDI 横向比较
+
+  - id: iea_id
+    name: IEA Indonesia
+    domain: iea.org
+    home_url: https://www.iea.org/countries/indonesia
+    country: ID
+    region: INT
+    language: en
+    level: research_ifo
+    priority: A
+    fetch_mode: list
+    enabled: true
+    fetch_l2: true
+    fetch_l2_mode: stealthy
+    notes: 能源/电力/新能源背景；CF → StealthyFetcher
+
+  - id: dealstreetasia
+    name: DealStreetAsia
+    domain: dealstreetasia.com
+    home_url: https://www.dealstreetasia.com/
+    country: INT
+    region: INT
+    language: en
+    level: capital_media
+    priority: A
+    fetch_mode: search
+    enabled: true
+    notes: PE/VC/并购/合资
+
+  # —— 国际 B（资源/电池赛道）——
+  - id: argus
+    name: Argus Media
+    domain: argusmedia.com
+    home_url: https://www.argusmedia.com/
+    country: INT
+    region: INT
+    language: en
+    level: commodity_intel
+    priority: B
+    fetch_mode: search
+    enabled: true
+    notes: 镍/煤/LNG 等大宗
+
+  - id: benchmark_minerals
+    name: Benchmark Mineral Intelligence
+    domain: benchmarkminerals.com
+    home_url: https://www.benchmarkminerals.com/
+    country: INT
+    region: INT
+    language: en
+    level: commodity_intel
+    priority: B
+    fetch_mode: search
+    enabled: true
+    notes: 电池与关键矿产供应链
+
+  # —— 测试用 ——
+  - id: disabled_sample
+    name: Disabled sample source
+    domain: example-disabled.test
+    country: ID
+    region: ID
+    language: id
+    level: other
+    priority: B
+    fetch_mode: list
+    enabled: false
+    notes: Used in tests to prove disable switch
